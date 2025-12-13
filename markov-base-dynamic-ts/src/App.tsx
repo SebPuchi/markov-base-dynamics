@@ -12,7 +12,7 @@ function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'intro':
-        return <Info/>;
+        return <Info setView={setView} />;
       case 'model':
         return <div><h1>The Markov Model</h1><p>Transition Matrices & State Diagram</p></div>;
       case 'visualizer':
@@ -34,9 +34,6 @@ function App() {
         {renderContent()}
         
         <div style={{ marginTop: '2rem' }}>
-          <button onClick={() => alert("Go Sox!")}>
-            Test Theme Button
-          </button>
         </div>
       </main>
     </>
