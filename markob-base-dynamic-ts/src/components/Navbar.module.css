@@ -1,0 +1,47 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 70px;
+    background-color: var(--sox-navy);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.5rem; /* Fixed typo from weight to size */
+    letter-spacing: 1px;
+    color: white;
+    cursor: pointer;
+}
+
+.ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.li {
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+    background-color: transparent;
+    color: white;
+}
+
+/* Add this to handle the active state in CSS */
+.active {
+    background-color: var(--sox-red);
+}
