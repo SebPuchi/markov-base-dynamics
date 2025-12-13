@@ -22,7 +22,7 @@ const Navbar = ({ currentView, setView }: NavbarProps) => {
     return (
         <nav className={styles.nav}>
             <div className={styles.logo} onClick={() => setView('intro')}>
-                STOCHASTIC DIAMOND
+                Stochastic Diamond
             </div>
             
             <ul className={styles.ul}>
