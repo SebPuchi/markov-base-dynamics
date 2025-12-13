@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Navbar  from './components/Navbar';
+import Info from './components/Info';
 
 import type { ViewState } from './components/Navbar';
 
@@ -11,7 +12,7 @@ function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'intro':
-        return <div><h1>Red Sox vs. Yankees</h1><p>Monte Carlo Analysis 2024</p></div>;
+        return <Info/>;
       case 'model':
         return <div><h1>The Markov Model</h1><p>Transition Matrices & State Diagram</p></div>;
       case 'visualizer':
@@ -32,7 +33,6 @@ function App() {
       <main className="content-container">
         {renderContent()}
         
-        {/* Placeholder button to test style */}
         <div style={{ marginTop: '2rem' }}>
           <button onClick={() => alert("Go Sox!")}>
             Test Theme Button
