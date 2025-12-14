@@ -41,7 +41,7 @@ const Model = () => {
         <div className={styles.container}>
             
             {/* Header */}
-            <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <div style={{ textAlign: 'center'}}>
                 <h1 style={{ fontSize: '2.5rem', margin: 0 }}>The Markov Model</h1>
                 <p style={{ color: '#666' }}>Visualizing the 25 States of Baseball</p>
             </div>
@@ -50,7 +50,7 @@ const Model = () => {
             <section className={styles.card}>
                 <h2>State Transition Diagram</h2>
                 <p style={{ marginBottom: '1rem' }}>
-                    The diagram below represents all possible state transitions for the Red Sox. 
+                    The diagram below represents all possible state transitions calculated for the Red Sox. 
                     The notation <strong>#-#-#</strong> represents a binary indicator of a runner on 
                     1st, 2nd, and 3rd base respectively.
                 </p>
