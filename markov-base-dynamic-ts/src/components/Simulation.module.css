@@ -1,0 +1,115 @@
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: calc(100vh - 70px);
+    background-color: #121212;
+    color: white;
+    border-radius: 12px;
+}
+
+.canvasContainer {
+    position: relative;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    border-right: 1px solid #333;
+}
+
+.liveIndicator {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+    /* Let clicks pass through to canvas */
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #1e1e1e;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    border-bottom: 2px solid var(--sox-red);
+}
+
+.teamScore {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.teamName {
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.score {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.inningInfo {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.outs {
+    color: var(--sox-red);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.gameLog {
+    flex-grow: 1;
+    background: #252525;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.eventCard {
+    margin-top: 10px;
+    padding: 10px;
+    background: #333;
+    border-left: 4px solid var(--sox-navy);
+    border-radius: 4px;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

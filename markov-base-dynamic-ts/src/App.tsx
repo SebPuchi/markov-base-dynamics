@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import './App.css';
+
 // components
 import Navbar  from './components/Navbar';
 import Info from './components/Info';
+import Simulation from './components/Simulation';
 import Model from './components/Model';
 
 import type { ViewState } from './components/Navbar';
@@ -18,7 +20,7 @@ function App() {
       case 'model':
         return <Model />;
       case 'visualizer':
-        return <div><h1>3D Visualizer</h1><p>Live Game View</p></div>;
+        return <Simulation />;
       case 'simulation':
         return <div><h1>Monte Carlo Simulation</h1><p>High-speed iteration engine</p></div>;
       case 'results':
