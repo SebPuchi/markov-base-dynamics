@@ -2,12 +2,19 @@ import styles from './Info.module.css';
 import redSoxLogo from '../assets/redsox.png';
 import yankeesLogo from '../assets/yankees.png';
 
-const Info = () => {
+import { Dispatch, SetStateAction } from 'react';
+import type { ViewState } from './Navbar';
+
+interface InfoProps {
+    setView: Dispatch<SetStateAction<ViewState>>;
+};
+
+const Info = ({ setView }: InfoProps) => {
     return (
         <div className={styles.container}>
 
 
-            <div style={{ textAlign: 'center'}}>
+            <div style={{ textAlign: 'center' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Red Sox - Yankees Markov Analysis</h1>
                 <p style={{ fontSize: '1.2rem', color: '#666' }}>
                     A Monte Carlo simulation of the 2024 MLB Season
@@ -24,6 +31,12 @@ const Info = () => {
                 <img src={yankeesLogo} alt="New York Yankees" className={styles.logo} />
             </header>
 
+            <div className={styles.buttonWrapper}>
+                <button onClick={() => setView("model")}>
+                    Begin Simulation
+                </button>
+
+            </div>
 
             {/* 2. Overview Card */}
             <section className={styles.card}>

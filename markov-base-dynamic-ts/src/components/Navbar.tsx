@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import styles from './Navbar.module.css';
 
 // Define the available views based on our outline
-export type ViewState = 'intro' | 'model' | 'visualizer' | 'simulation' | 'results';
+export type ViewState = 'intro' | 'model' | 'game-sim' | 'monte-carlo' | 'results';
 
 interface NavbarProps {
     currentView: ViewState;
@@ -14,8 +14,8 @@ const Navbar = ({ currentView, setView }: NavbarProps) => {
     const navItems: { id: ViewState; label: string }[] = [
         { id: 'intro', label: 'Introduction' },
         { id: 'model', label: 'The Model' },
-        { id: 'visualizer', label: '3D Visualizer' },
-        { id: 'simulation', label: 'Simulation' },
+        { id: 'game-sim', label: 'Game Simulation' },
+        { id: 'monte-carlo', label: 'Monte Carlo Calculation' },
         { id: 'results', label: 'Results' },
     ];
 
