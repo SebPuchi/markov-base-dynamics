@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './App.css';
+// components
 import Navbar  from './components/Navbar';
 import Info from './components/Info';
+import Model from './components/Model';
 
 import type { ViewState } from './components/Navbar';
 
@@ -12,9 +14,9 @@ function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'intro':
-        return <Info/>;
+        return <Info setView={setView} />;
       case 'model':
-        return <div><h1>The Markov Model</h1><p>Transition Matrices & State Diagram</p></div>;
+        return <Model />;
       case 'visualizer':
         return <div><h1>3D Visualizer</h1><p>Live Game View</p></div>;
       case 'simulation':
@@ -34,9 +36,6 @@ function App() {
         {renderContent()}
         
         <div style={{ marginTop: '2rem' }}>
-          <button onClick={() => alert("Go Sox!")}>
-            Test Theme Button
-          </button>
         </div>
       </main>
     </>

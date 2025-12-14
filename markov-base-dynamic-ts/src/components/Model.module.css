@@ -1,0 +1,137 @@
+/* --- Reused Container/Card Styles --- */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1000px; 
+  margin: 0 auto;
+  text-align: left;
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-top: 6px solid var(--sox-navy);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card h2 {
+  color: var(--sox-navy);
+  margin-top: 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Diagram Viewer Styles --- */
+.diagramContainer {
+  width: 100%;
+  height: 500px; /* Fixed height window */
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+.diagramContainer:active {
+  cursor: grabbing;
+}
+
+.diagramImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.instructions {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* --- Legend Styles --- */
+.legendGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.colorDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- States Grid Styles --- */
+.stateSection {
+  margin-top: 1rem;
+}
+
+.stateGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for 0, 1, 2 outs */
+  gap: 2rem;
+  text-align: center;
+}
+
+.stateColumn h3 {
+  color: var(--sox-red);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.stateList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stateList li {
+  padding: 0.4rem 0;
+  font-family: monospace; /* Monospace makes the 1-0-1 pattern look techy */
+  font-size: 1rem;
+  color: #555;
+  background: #fdfdfd;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.stateList li:nth-child(even) {
+    background: #f4f4f4;
+}
+
+.finalState {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--sox-navy);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
