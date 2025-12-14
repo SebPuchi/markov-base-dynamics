@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import './App.css';
+
+
+// components
 import Navbar  from './components/Navbar';
 import Info from './components/Info';
+import Simulation from './components/Simulation';
 
 import type { ViewState } from './components/Navbar';
 
@@ -16,7 +20,7 @@ function App() {
       case 'model':
         return <div><h1>The Markov Model</h1><p>Transition Matrices & State Diagram</p></div>;
       case 'visualizer':
-        return <div><h1>3D Visualizer</h1><p>Live Game View</p></div>;
+        return <Simulation />;
       case 'simulation':
         return <div><h1>Monte Carlo Simulation</h1><p>High-speed iteration engine</p></div>;
       case 'results':
