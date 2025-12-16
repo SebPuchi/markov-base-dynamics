@@ -15,8 +15,7 @@ const Navbar = ({ currentView, setView }: NavbarProps) => {
         { id: 'intro', label: 'Introduction' },
         { id: 'model', label: 'The Model' },
         { id: 'game-sim', label: 'Game Simulation' },
-        { id: 'monte-carlo', label: 'Monte Carlo Calculation' },
-        { id: 'results', label: 'Results' },
+        { id: 'monte-carlo', label: 'Monte Carlo Calculation' }
     ];
 
     return (
