@@ -33,6 +33,8 @@ const Simulation = () => {
 
     const [lastProb, setLastProb] = useState<number | null>(null);
 
+    const [isGameOver, setIsGameOver] = useState(false);
+
     // Auto-Play State
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
@@ -42,14 +44,17 @@ const Simulation = () => {
 
     // --- Core Game Step ---
     const handleNextPlay = () => {
+        // 1. Stop if Game is Over
+        if (isGameOver) return;
+
         const teamSlug = isTop ? 'redsox' : 'yankees';
         const teamName = isTop ? 'Red Sox' : 'Yankees';
 
-        // A. Step Engine
+        // 2. Step the Engine
         const result = engine.step(isTop);
-
         setLastProb(result.probability);
-        // B. Add Log (Limit to last 50 items for performance)
+
+        // 3. Add to Log
         const newLog = {
             id: logIdRef.current++,
             text: `${isTop ? 'Top' : 'Bot'} ${inning}: ${result.label}`,
@@ -57,29 +62,64 @@ const Simulation = () => {
         };
         setGameLog(prev => [newLog, ...prev].slice(0, 50));
 
-        // C. Check Inning End
+        // 4. Handle End of Inning Events
         if (result.inningOver) {
-            // Update Score
-            if (result.runsScored > 0) {
-                setScores(prev => ({
-                    ...prev,
-                    [teamSlug]: prev[teamSlug as 'redsox' | 'yankees'] + result.runsScored
-                }));
+
+            // A. Calculate NEW Scores immediately
+            const runs = result.runsScored;
+            const newRedSoxScore = scores.redsox + (isTop ? runs : 0);
+            const newYankeesScore = scores.yankees + (!isTop ? runs : 0);
+
+            // B. Update Visual Score State
+            if (runs > 0) {
+                setScores({ redsox: newRedSoxScore, yankees: newYankeesScore });
                 setGameLog(prev => [{
                     id: logIdRef.current++,
-                    text: `>> ${teamName} SCORE ${result.runsScored} RUN(S)! <<`,
+                    text: `>> ${teamName} SCORE ${runs} RUN(S)! <<`,
                     type: teamSlug as 'redsox' | 'yankees'
                 }, ...prev]);
             }
 
-            // Reset and Switch Sides
+            // --- C. GAME OVER LOGIC ---
+
+            // Rule 1: Mercy / Home Field Advantage
+            // If it is the End of the Top of the 9th (or later), and Yankees are winning, 
+            // they do not bat. Game Over.
+            const isHomeWinningMidInning = (inning >= 9) && isTop && (newYankeesScore > newRedSoxScore);
+
+            // Rule 2: End of Regulation
+            // The Bottom of the 9th (or later) just ended. Game Over.
+            const isEndOfRegulation = (inning >= 9) && !isTop;
+
+            if (isHomeWinningMidInning || isEndOfRegulation) {
+                setIsGameOver(true);
+                setIsAutoPlaying(false); // Kill the auto-loop
+
+                // Determine Final Result
+                let winner = "TIE";
+                if (newRedSoxScore > newYankeesScore) winner = "RED SOX";
+                if (newYankeesScore > newRedSoxScore) winner = "YANKEES";
+
+                setGameLog(prev => [{
+                    id: logIdRef.current++,
+                    text: `*** GAME OVER - ${winner} WIN ***`,
+                    type: winner === 'RED SOX' ? 'redsox' : 'yankees'
+                }, ...prev]);
+
+                return; // EXIT FUNCTION: Do not set up next inning
+            }
+
+            // --- D. NEXT INNING SETUP ---
+            // If game is NOT over, proceed to next half-inning
             engine.resetInning();
             setGameState(0);
             setLastProb(null);
+
             if (!isTop) setInning(i => i + 1);
             setIsTop(!isTop);
 
         } else {
+            // Normal Play: Just update the runners/outs
             setGameState(result.nextState);
         }
     };
@@ -109,10 +149,21 @@ const Simulation = () => {
             <div className={styles.sidebar}>
                 <div className={styles.controlPanel}>
                     <h3 style={{ marginTop: 0, color: 'white' }}>Game Controls</h3>
-                    <button className={styles.bigButton} onClick={handleNextPlay} disabled={isAutoPlaying}>
-                        NEXT PLAY ▶
+                    <button
+                        className={styles.bigButton}
+                        onClick={handleNextPlay}
+                        disabled={isAutoPlaying || isGameOver}
+                        style={{ opacity: isGameOver ? 0.5 : 1, cursor: isGameOver ? 'not-allowed' : 'pointer' }}
+                    >
+                        {isGameOver ? 'GAME OVER' : 'NEXT PLAY ▶'}
                     </button>
-                    <button className={styles.secondaryButton} onClick={() => setIsAutoPlaying(!isAutoPlaying)}>
+
+
+                    <button
+                        disabled={isGameOver}
+                        className={styles.secondaryButton} onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                        style={{ opacity: isGameOver ? 0.5 : 1, cursor: isGameOver ? 'not-allowed' : 'pointer' }}
+                    >
                         {isAutoPlaying ? 'STOP Auto-Play' : 'START Auto-Play'}
                     </button>
                 </div>
