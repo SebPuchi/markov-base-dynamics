@@ -2,6 +2,7 @@
   "name": "markob-base-dynamic-ts",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://SebPuchi.github.io/markov-base-dynamics/",
   "type": "module",
   "scripts": {
     "dev": "vite",
