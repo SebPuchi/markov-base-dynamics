@@ -19,7 +19,7 @@ export const getOuts = (stateIdx: number) => {
 export class StatefulSimulationEngine {
     private soxCDF: number[][];
     private yanksCDF: number[][];
-    
+
     // Internal Game State
     private currentState: number = 0;
     private B: number = 0; // Batter Count for formula
@@ -70,7 +70,7 @@ export class StatefulSimulationEngine {
         //
         // 3. Identify the Event Label
         const label = transitionLabelMatrix[this.currentState][nextState];
-        
+
         // 4. Update "B" (Batters) Logic
         // Only increment if it's NOT a steal event
         if (!label.includes("Steal")) {
@@ -85,7 +85,7 @@ export class StatefulSimulationEngine {
             // Inning is over. Calculate Runs using the Formula: R = B - L - 3
             // L is the number of runners on base in the PREVIOUS state
             this.L = RUNNERS_ON_BASE_MAP[this.currentState];
-            
+
             const R = Math.max(0, this.B - this.L - 3);
             runsScored = R;
             inningOver = true;
@@ -105,4 +105,126 @@ export class StatefulSimulationEngine {
             probability
         };
     }
+
+    // --- MONTE CARLO METHODS
+
+    /**
+     * Public method to run thousands of games instantly.
+     * Uses local variables so it DOES NOT disrupt the visual simulation state.
+     */
+    public runMonteCarlo(iterations: number) {
+        let soxWins = 0;
+        let yanksWins = 0;
+        let totalSoxRuns = 0;
+        let totalYanksRuns = 0;
+
+        const startTime = performance.now();
+
+        for (let i = 0; i < iterations; i++) {
+            const result = this.playFullGameFast();
+
+            if (result.winner === 'redsox') soxWins++;
+            else yanksWins++;
+
+            totalSoxRuns += result.soxScore;
+            totalYanksRuns += result.yanksScore;
+        }
+
+        const endTime = performance.now();
+
+        return {
+            iterations,
+            soxWins,
+            yanksWins,
+            soxWinProb: soxWins / iterations,
+            yanksWinProb: yanksWins / iterations,
+            avgSoxScore: (totalSoxRuns / iterations).toFixed(2),
+            avgYanksScore: (totalYanksRuns / iterations).toFixed(2),
+            timeTaken: (endTime - startTime).toFixed(0) + 'ms'
+        };
+    }
+
+    /**
+     * Simulates one complete 9-inning game using standard rules.
+     * Returns the winner and final scores.
+     */
+    private playFullGameFast() {
+        let soxScore = 0;
+        let yanksScore = 0;
+        let inning = 1;
+
+        // Play at least 9 innings, continuing if tied
+        while (inning <= 9 || soxScore === yanksScore) {
+
+            // --- TOP OF INNING (Red Sox) ---
+            soxScore += this.simulateSingleInning(true);
+
+            // RULE: Home Team Advantage (Walk-off condition / Not batting if winning)
+            // If we are in the 9th inning (or later) and Yankees are already ahead 
+            // after the top half, the game ends immediately.
+            if (inning >= 9 && yanksScore > soxScore) {
+                return { winner: 'yankees', soxScore, yanksScore };
+            }
+
+            // --- BOTTOM OF INNING (Yankees) ---
+            const runsBottom = this.simulateSingleInning(false);
+            yanksScore += runsBottom;
+
+            // Check if Yankees won in the bottom half (Walk-off)
+            if (inning >= 9 && yanksScore > soxScore) {
+                return { winner: 'yankees', soxScore, yanksScore };
+            }
+
+            inning++;
+        }
+
+        const winner = soxScore > yanksScore ? 'redsox' : 'yankees';
+        return { winner, soxScore, yanksScore };
+    }
+
+    /**
+     * Simulates a single half-inning from 0 outs to 3 outs.
+     * USES LOCAL VARIABLES ONLY (state, B, L) to avoid side effects.
+     */
+    private simulateSingleInning(isRedSox: boolean): number {
+        // Select correct data
+        const cdf = isRedSox ? this.soxCDF : this.yanksCDF;
+
+        // Local state variables (independent of this.currentState)
+        let state = 0; // Start Empty
+        let B = 0;     // Local Batter count
+        let L = 0;     // Local Runners Left
+
+        // Loop until 3 Outs (State 24)
+        while (state !== 24) {
+            const row = cdf[state];
+
+            // 1. Fast Roll (Retry loop for precision)
+            let nextState = -1;
+            while (nextState === -1) {
+                const roll = Math.random();
+                nextState = row.findIndex(val => roll < val);
+            }
+
+            // 2. Check Event Label for Scoring Logic
+            // We need to check if B should increment (Same logic as step())
+            const label = transitionLabelMatrix[state][nextState];
+            if (!label.includes("Steal")) {
+                B++;
+            }
+
+            // 3. Handle End of Inning
+            if (nextState === 24) {
+                // Capture runners on base from the PREVIOUS state
+                L = RUNNERS_ON_BASE_MAP[state];
+            }
+
+            // 4. Advance State
+            state = nextState;
+        }
+
+        // Apply Formula: R = B - L - 3
+        return Math.max(0, B - L - 3);
+    }
+
 }
