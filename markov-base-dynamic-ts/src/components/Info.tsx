@@ -2,7 +2,7 @@ import styles from './Info.module.css';
 import redSoxLogo from '../assets/redsox.png';
 import yankeesLogo from '../assets/yankees.png';
 
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import type { ViewState } from './Navbar';
 
 interface InfoProps {
@@ -33,7 +33,7 @@ const Info = ({ setView }: InfoProps) => {
 
             <div className={styles.buttonWrapper}>
                 <button onClick={() => setView("model")}>
-                    Begin Simulation
+                    The Model
                 </button>
 
             </div>

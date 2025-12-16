@@ -18,7 +18,7 @@ function App() {
       case 'intro':
         return <Info setView={setView} />;
       case 'model':
-        return <Model />;
+        return <Model setView={setView} />;
       case 'game-sim':
         return <Simulation />;
       case 'monte-carlo':
