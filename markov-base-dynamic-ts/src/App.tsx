@@ -5,6 +5,7 @@ import Navbar  from './components/Navbar';
 import Info from './components/Info';
 import Model from './components/Model';
 import Simulation from './components/Simulation';
+import MonteCarloDash from './components/MonteCarloDashboard';
 
 import type { ViewState } from './components/Navbar';
 
@@ -21,7 +22,7 @@ function App() {
       case 'game-sim':
         return <Simulation />;
       case 'monte-carlo':
-        return <div><h1>Monte Carlo Simulation</h1><p>High-speed iteration engine</p></div>;
+        return <MonteCarloDash />
       case 'results':
         return <div><h1>Final Results</h1><p>Who wins the series?</p></div>;
       default:
