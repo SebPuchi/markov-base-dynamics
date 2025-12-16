@@ -57,14 +57,17 @@ export class StatefulSimulationEngine {
         // 1. Get the probability row based on current state & team
         const cdf = isRedSoxBatting ? this.soxCDF : this.yanksCDF;
         const row = cdf[this.currentState];
-        
+
+        const rawMatrix = isRedSoxBatting ? redSoxMatrix : yankeesMatrix;
+        //
         // 2. Roll the Dice
         let nextState = -1;
         while (nextState === -1) {
             const roll = Math.random();
             nextState = row.findIndex(val => roll < val);
         }
-
+        const probability = rawMatrix[this.currentState][nextState];
+        //
         // 3. Identify the Event Label
         const label = transitionLabelMatrix[this.currentState][nextState];
         
@@ -98,7 +101,8 @@ export class StatefulSimulationEngine {
             label, // e.g., "Single", "Out"
             runsScored,
             inningOver,
-            outs: getOuts(nextState)
+            outs: getOuts(nextState),
+            probability
         };
     }
 }
