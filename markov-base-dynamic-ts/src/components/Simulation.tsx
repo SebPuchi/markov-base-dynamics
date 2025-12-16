@@ -123,7 +123,7 @@ const Simulation = () => {
                         {STATE_ORDER[gameState] ? STATE_ORDER[gameState].replace(/_/g, " - ") : "Resetting..."}
                     </p>
                     <p style={{ color: '#aaa', fontSize: '0.8rem' }}>Matrix Index: {gameState}</p>
-                    <p style={{ color: 'var(--sox-red)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                    <p style={{ color: 'var(--sox-red)', fontSize: '1rem', marginTop: '0.5rem' }}>
                         Event Prob: {lastProb !== null ? (lastProb * 100).toFixed(1) + '%' : '-'}
                     </p>
 
