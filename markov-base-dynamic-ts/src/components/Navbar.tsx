@@ -21,7 +21,7 @@ const Navbar = ({ currentView, setView }: NavbarProps) => {
     return (
         <nav className={styles.nav}>
             <div className={styles.logo} onClick={() => setView('intro')}>
-                Stochastic Diamond
+                Fall 2025
             </div>
             
             <ul className={styles.ul}>
