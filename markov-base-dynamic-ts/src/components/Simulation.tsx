@@ -8,7 +8,7 @@ const getBasesForState = (stateIdx: number): boolean[] => {
     if (stateIdx === 24) return [false, false, false];
     const pattern = stateIdx % 8;
     // Map pattern to [1st, 2nd, 3rd]
-    switch(pattern) {
+    switch (pattern) {
         case 1: return [true, false, false];
         case 2: return [false, true, false];
         case 3: return [false, false, true];
@@ -25,18 +25,20 @@ const Simulation = () => {
     const engine = useMemo(() => new StatefulSimulationEngine(), []);
 
     // 2. State
-    const [gameState, setGameState] = useState(0); 
+    const [gameState, setGameState] = useState(0);
     const [inning, setInning] = useState(1);
-    const [isTop, setIsTop] = useState(true); 
+    const [isTop, setIsTop] = useState(true);
     const [scores, setScores] = useState({ redsox: 0, yankees: 0 });
-    const [gameLog, setGameLog] = useState<{id: number, text: string, type: 'redsox' | 'yankees'}[]>([]);
-    
+    const [gameLog, setGameLog] = useState<{ id: number, text: string, type: 'redsox' | 'yankees' }[]>([]);
+
+    const [lastProb, setLastProb] = useState<number | null>(null);
+
     // Auto-Play State
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
-    
+
     // Refs
     const logIdRef = useRef(0);
-    const savedCallback = useRef<() => void>(() => {}); // Placeholder
+    const savedCallback = useRef<() => void>(() => { }); // Placeholder
 
     // --- Core Game Step ---
     const handleNextPlay = () => {
@@ -46,6 +48,7 @@ const Simulation = () => {
         // A. Step Engine
         const result = engine.step(isTop);
 
+        setLastProb(result.probability);
         // B. Add Log (Limit to last 50 items for performance)
         const newLog = {
             id: logIdRef.current++,
@@ -64,15 +67,15 @@ const Simulation = () => {
                 }));
                 setGameLog(prev => [{
                     id: logIdRef.current++,
-                    text: `>>> ${teamName} SCORE ${result.runsScored} RUN(S)! <<<`,
+                    text: `>> ${teamName} SCORE ${result.runsScored} RUN(S)! <<`,
                     type: teamSlug as 'redsox' | 'yankees'
                 }, ...prev]);
             }
 
             // Reset and Switch Sides
             engine.resetInning();
-            setGameState(0); 
-
+            setGameState(0);
+            setLastProb(null);
             if (!isTop) setInning(i => i + 1);
             setIsTop(!isTop);
 
@@ -105,7 +108,7 @@ const Simulation = () => {
             {/* LEFT: Controls */}
             <div className={styles.sidebar}>
                 <div className={styles.controlPanel}>
-                    <h3 style={{marginTop: 0, color: 'white'}}>Game Controls</h3>
+                    <h3 style={{ marginTop: 0, color: 'white' }}>Game Controls</h3>
                     <button className={styles.bigButton} onClick={handleNextPlay} disabled={isAutoPlaying}>
                         NEXT PLAY ▶
                     </button>
@@ -116,10 +119,14 @@ const Simulation = () => {
 
                 <div className={styles.statBox}>
                     <h4>Current State</h4>
-                    <p style={{fontSize: '1.2rem', margin: '0.5rem 0'}}>
+                    <p style={{ fontSize: '1.2rem', margin: '0.5rem 0' }}>
                         {STATE_ORDER[gameState] ? STATE_ORDER[gameState].replace(/_/g, " - ") : "Resetting..."}
                     </p>
-                    <p style={{color: '#aaa', fontSize: '0.8rem'}}>Matrix Index: {gameState}</p>
+                    <p style={{ color: '#aaa', fontSize: '0.8rem' }}>Matrix Index: {gameState}</p>
+                    <p style={{ color: 'var(--sox-red)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                        Event Prob: {lastProb !== null ? (lastProb * 100).toFixed(1) + '%' : '-'}
+                    </p>
+
                 </div>
             </div>
 
@@ -128,9 +135,9 @@ const Simulation = () => {
                 <div className={styles.scoreboard}>
                     <div className={styles.team}>
                         <span className={styles.teamName}>BOS</span>
-                        <span className={styles.teamScore} style={{color: 'var(--sox-red)'}}>{scores.redsox}</span>
+                        <span className={styles.teamScore} style={{ color: 'var(--sox-red)' }}>{scores.redsox}</span>
                     </div>
-                    
+
                     <div className={styles.gameInfo}>
                         <span className={styles.inning}>{isTop ? 'TOP' : 'BOT'} {inning}</span>
                         <span className={styles.outs}>{outs} OUT{outs !== 1 ? 'S' : ''}</span>
@@ -138,14 +145,14 @@ const Simulation = () => {
 
                     <div className={styles.team}>
                         <span className={styles.teamName}>NYY</span>
-                        <span className={styles.teamScore} style={{color: 'white'}}>{scores.yankees}</span>
+                        <span className={styles.teamScore} style={{ color: 'white' }}>{scores.yankees}</span>
                     </div>
                 </div>
 
                 <div className={styles.fieldContainer}>
                     <svg width="300" height="300" viewBox="0 0 200 200">
                         <path d="M100 20 L180 100 L100 180 L20 100 Z" className={styles.diamondPath} />
-                        
+
                         {/* Bases - Dynamically colored */}
                         <rect x="92" y="12" width="16" height="16" transform="rotate(45 100 20)"
                             className={`${styles.base} ${bases[1] ? styles.active : ''}`} /> {/* 2nd */}
@@ -153,10 +160,10 @@ const Simulation = () => {
                             className={`${styles.base} ${bases[2] ? styles.active : ''}`} /> {/* 3rd */}
                         <rect x="172" y="92" width="16" height="16" transform="rotate(45 180 100)"
                             className={`${styles.base} ${bases[0] ? styles.active : ''}`} /> {/* 1st */}
-                        
+
                         <path d="M92 180 L108 180 L108 188 L100 196 L92 188 Z" fill="white" />
                     </svg>
-                    <div style={{position: 'absolute', bottom: '20px', fontWeight: 'bold'}}>
+                    <div style={{ position: 'absolute', bottom: '20px', fontWeight: 'bold' }}>
                         Batting: {isTop ? "Red Sox" : "Yankees"}
                     </div>
                 </div>
