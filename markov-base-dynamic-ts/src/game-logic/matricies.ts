@@ -89,4 +89,3 @@ export const transitionLabelMatrix: TransitionMatrixLabel = [
     ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "Inning Over"]
 ];
 
-

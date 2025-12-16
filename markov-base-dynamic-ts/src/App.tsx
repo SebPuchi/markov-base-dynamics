@@ -4,6 +4,7 @@ import './App.css';
 import Navbar  from './components/Navbar';
 import Info from './components/Info';
 import Model from './components/Model';
+import Simulation from './components/Simulation';
 
 import type { ViewState } from './components/Navbar';
 
@@ -17,9 +18,9 @@ function App() {
         return <Info setView={setView} />;
       case 'model':
         return <Model />;
-      case 'visualizer':
-        return <div><h1>3D Visualizer</h1><p>Live Game View</p></div>;
-      case 'simulation':
+      case 'game-sim':
+        return <Simulation />;
+      case 'monte-carlo':
         return <div><h1>Monte Carlo Simulation</h1><p>High-speed iteration engine</p></div>;
       case 'results':
         return <div><h1>Final Results</h1><p>Who wins the series?</p></div>;
