@@ -1,9 +1,11 @@
 .dashboardContainer {
     padding: 2rem;
-    background-color: #121212;
+    background-color: black;
     min-height: 100vh;
     color: white;
     border-radius: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 6px solid var(--sox-red); /* Navy accent on top */
 }
 
 .header {

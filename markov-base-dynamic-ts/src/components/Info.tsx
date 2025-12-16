@@ -48,7 +48,7 @@ const Info = ({ setView }: InfoProps) => {
                 <br />
                 <ul>
                     <li><strong>The Model:</strong> We construct Markov matrices for both teams based on 2024 data, defining probabilities for hits, outs, and walks.</li>
-                    <li><strong>The Visualizer:</strong> A live, 3D demonstration of a single game engine running turn-by-turn.</li>
+                    <li><strong>The Visualizer:</strong> A live, simple demonstration of a single game engine running turn-by-turn.</li>
                     <li><strong>The Simulation:</strong> A Monte Carlo engine that runs thousands of games instantly to determine the statistical probability of winning a 3-game series.</li>
                 </ul>
             </section>
