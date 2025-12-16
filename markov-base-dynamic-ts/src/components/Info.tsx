@@ -66,7 +66,7 @@ const Info = ({ setView }: InfoProps) => {
                     <ul>
                         <li><strong>Plate Appearance:</strong> The standard outcome of a batter vs. pitcher matchup (Hit, Walk, Out).</li>
                         <li><strong>Steal Attempt:</strong> A calculated risk taken by a runner on 1st base to advance to 2nd.</li>
-                        <li><strong>Double Play:</strong> A specific defensive event that clears bases and records two outs simultaneously.</li>
+                        <li><strong>Double Play:</strong> A single defensive play where two outs are recorded</li>
                     </ul>
                 </section>
 
