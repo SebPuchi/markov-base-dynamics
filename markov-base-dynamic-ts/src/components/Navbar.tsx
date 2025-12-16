@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import styles from './Navbar.module.css';
 
 // Define the available views based on our outline
