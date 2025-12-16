@@ -23,8 +23,6 @@ function App() {
         return <Simulation />;
       case 'monte-carlo':
         return <MonteCarloDash />
-      case 'results':
-        return <div><h1>Final Results</h1><p>Who wins the series?</p></div>;
       default:
         return <div><h1>Welcome</h1></div>;
     }
