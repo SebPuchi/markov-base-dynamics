@@ -108,9 +108,9 @@ const MonteCarloDash = () => {
                     </div>
                     <input 
                         type="range" 
-                        min="100" 
+                        min="50" 
                         max="10000" 
-                        step="100"
+                        step="50"
                         value={iterations} 
                         onChange={(e) => setIterations(parseInt(e.target.value))}
                         className={styles.rangeInput}

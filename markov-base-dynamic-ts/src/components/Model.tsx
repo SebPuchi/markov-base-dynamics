@@ -40,7 +40,8 @@ const Model = ({ setView }: ModelProps) => {
         { label: "GIDP", color: "#FFD700" }, // Yellow
         { label: "Outs", color: "black" },
         { label: "Sac Fly", color: "#555555" }, // Dark Gray
-        { label: "Walks / HBP", color: "pink" },
+        { label: "Walks / HBP / Single", color: "pink" },
+        { label: "Walk / HBP", color: "red" }
     ];
 
     return (
@@ -128,26 +129,6 @@ const Model = ({ setView }: ModelProps) => {
                     <div className={styles.finalState}>
                         3 Outs (Absorbing State)
                     </div>
-                </div>
-            </section>
-
-            {/* 4. Placeholder for Matrices */}
-            <section className={styles.card}>
-                <h2>Transition Matrices</h2>
-                <p>
-                    We have calculated unique probability matrices for both the Red Sox and Yankees
-                    based on the 2024 season data. These matrices drive the Monte Carlo engine.
-                </p>
-                <div style={{
-                    marginTop: '2rem',
-                    padding: '3rem',
-                    background: '#f4f4f4',
-                    border: '2px dashed #ccc',
-                    borderRadius: '8px',
-                    textAlign: 'center',
-                    color: '#888'
-                }}>
-                    [Matrix Data Tables Coming Soon]
                 </div>
             </section>
 
