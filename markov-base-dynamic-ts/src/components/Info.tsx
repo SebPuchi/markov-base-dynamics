@@ -78,8 +78,8 @@ const Info = ({ setView }: InfoProps) => {
                     </p>
                     <br />
                     <ul>
-                        <li><strong>Active Stealing:</strong> Runners may attempt to steal 2nd base based on speed metrics.</li>
-                        <li><strong>Forced Double Plays:</strong> Ground balls with runners on 1st trigger double play probabilities.</li>
+                        <li><strong>Active Stealing:</strong> Runners may attempt to steal 2nd base based on 2024 probabilities.</li>
+                        <li><strong>Forced Double Plays:</strong> A ground ball where runners are forced to move triggering double play probabilities.</li>
                         <li><strong>Sacrifice Flies:</strong> Modeled specifically when a runner is on 3rd base with less than 2 outs.</li>
                     </ul>
                 </section>
@@ -105,7 +105,6 @@ const Info = ({ setView }: InfoProps) => {
                             <li><strong>No Errors:</strong> Defense is assumed to play perfectly.</li>
                             <li><strong>No Triple Plays:</strong> Rare events are excluded for statistical stability.</li>
                             <li><strong>Perfect Defense:</strong> Fielders always make the best play (Lead runner is the priority out).</li>
-                            <li><strong>Standard Length:</strong> No extra innings; games conclude after 9.</li>
                         </ul>
                     </div>
                 </div>
